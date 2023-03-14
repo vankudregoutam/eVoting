@@ -6,8 +6,6 @@ const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// using this we can easily find the data is tempered or not and if done we can get to know by using the 3rd part that is returned by authToken
-const JWT_SECRET = 'BlockchainbasedeVoting'
 
 app.use(cors())
 
