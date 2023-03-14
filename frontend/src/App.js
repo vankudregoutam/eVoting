@@ -14,7 +14,7 @@ import {
   // Link
 } from "react-router-dom";
 import Carousel from './component/Carousel';
-import Addcandidate from './component/Addcandidate1';
+import Addcandidate from './component/AddCandidate';
 import UserHome from './component/UserHome';
 // import FaceRecognition from './component/FaceRecognition';
 

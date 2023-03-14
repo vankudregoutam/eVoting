@@ -1,79 +1,112 @@
-import React, { useState ,useEffect } from 'react';
-import View from './View';
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import {Icon} from 'react-icons-kit'
+import {trash} from 'react-icons-kit/feather/trash'
+// import Routes from './Routes'
 
-// getting the values of local storage
-const getDatafromLS = () => {
-    const data = localStorage.getItem('candidates');
-    if(data) {
-        return JSON.parse(data);    // JSON.pasrse converts the string to object format
-    } else {
-        return []
-    }
+const initialValues = {
+    name: '',
+    partyname: ''
 }
 
-export default function AddCandidate() {
 
-    // main array of name and party name
-    const [candidates, setCandidates] = useState(getDatafromLS());
+function Addcandidate() {
+    const navigate = useNavigate()
+    const [data, setData] = useState([])
 
-    // input field states
-    const [name, setName] = useState('');
-    const [partyname, setPartyName] = useState('');
+    // delete book from LS
+    // const deleteCandidate=(isbn)=>{
+    //     const filteredBooks=books.filter((element,index)=>{
+    //       return element.isbn !== isbn
+    //     })
+    //     setbooks(filteredBooks);
+    //   }
 
-    // form submit event
-    const handleAddSubmit = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        fetch('http://localhost:5000/getAllCandidate', {
+            method: 'GET'
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data, 'candidateData');
+                setData(data.data)
+            })
+    }, [])
 
-        // creating an object
-        let candidate ={
-            name,
-            partyname
-        }
+    const handleSubmit = (e) => {
+        e.preventDefalut();
 
-        setCandidates([...candidates,candidate]);
-        setName('');
-        setPartyName('');
+        const { name, partyname } = values;
+
+        fetch('http://localhost:5000/addCandidate', {
+            method: 'POST',
+            crossDomain: true,
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({
+                name, partyname
+            })
+        }).then((res) => res.json())
+            .then(res => navigate('/admin'))
     }
 
-    // saving data to local storge
-    useEffect (() => {
-        localStorage.setItem('candidates', JSON.stringify(candidates));     // stores the data in string format inlocal storage
-    }, [candidates])
-
+    const { values, errors, handleBlur, handleChange } = useFormik({
+        initialValues: initialValues,   // this initialValues will be passed to values after submitting
+        onSubmit: (vḁlues) => {
+            console.log("🚀 ~ file: Registration.js:20 ~ Registration ~ vḁlues", vḁlues)
+        }
+    });
+    console.log("🚀 ~ file: Registration.js:20 ~ Registration ~ errors", errors)
     return (
         <div className='wrapper'>
-            <h1 style={{ color: 'white' }}>Candidates</h1>
+            <h1>Candidates</h1>
             <p>Add candidtes standing in election</p>
-            <div className="main">
-                <div className="form-container">
-                    <form autoComplete='off' className='form-group' onSubmit={handleAddSubmit}>
-                        <label htmlFor="name" className="col-sm-4 col-form-label" style={{ color: 'white' }}>Name</label>
-                        <input type='text' className='form-control' name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} required /> <br /> <br />
-                        <label htmlFor="partyname" className="col-sm-4 col-form-label" style={{ color: 'white' }}>Party Name</label>
-                        <input type='text' className='form-control' name="partyname" id="partyname" value={partyname} onChange={(e) => setPartyName(e.target.value)} required /> <br /> <br />
-                        <button className="btn btn-primary" >ADD</button>
-                    </form>
-                </div>
-                <div className="view-container">
-                    {candidates.length > 0 && <>
-                        <div className="table-responsive">
-                            <table className='table'>
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Party Name</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <View candidates={candidates}/>
-                                </tbody>
-                            </table>
+            <div className="card mx-5" style={{ width: '45rem' }}><br />
+                <form method="POST" className='form-container' onSubmit={handleSubmit}>
+                    <div className="mb-3 row">
+                        <label htmlFor="name" className="col-sm-4 col-form-label">Name</label>
+                        <div className="col-sm-10 w-50">
+                            <input type="text" autoComplete='off' className="form-control" name="name" id="name" value={values.name} onChange={handleChange} onBlur={handleBlur} placeholder='Enter Name' required />
                         </div>
-                    </>}
-                    {candidates.length < 1 && <div>No Candidates are added yet</div> }
+                    </div>
+                    <div className="mb-3 row">
+                        <label htmlFor="name" className="col-sm-4 col-form-label">Party Name</label>
+                        <div className="col-sm-10 w-50">
+                            <input type="text" autoComplete='off' className="form-control" name="partyname" id="partyname" value={values.partyname} onChange={handleChange} onBlur={handleBlur} placeholder='Enter Party Name' required />
+                        </div>
+                    </div>
+                    <button className="btn btn-primary" >ADD</button><br /><br />
+                </form>
+            </div>
+            <div className="view-container">
+                <div className="table-responsive">
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Party Name</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map(i => (
+
+                                <tr key={i._id}>
+                                    <td>{i.name}</td>
+                                    <td>{i.partyname}</td>
+                                    <td><Icon icon={trash}/></td>
+                                </tr>
+
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     )
 }
+
+export default Addcandidate

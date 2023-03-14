@@ -5,6 +5,7 @@ const cors = require('cors');
 const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoURL = 'mongodb+srv://goutamv1503:pArTh1503@cluster0.bz1zhhr.mongodb.net/?retryWrites=true&w=majority';
 
 // using this we can easily find the data is tempered or not and if done we can get to know by using the 3rd part that is returned by authToken
 const JWT_SECRET = 'BlockchainbasedeVoting'
@@ -156,14 +157,6 @@ app.post('/addCandidate', async (req, res) => {
             res.send("Successful Registration")
 
         } else {
-            Swal.fire('Error',
-                'User already exists!',
-                'error'
-            )
-            // Swal.fire('Success',
-            //     'Successful Registration',
-            //     'success'
-            // )
             console.log('Candidate already exists!');
             return res.send("Candidate already exists")
 
@@ -173,6 +166,15 @@ app.post('/addCandidate', async (req, res) => {
         res.send(error)
     }
 });
+
+app.get('/getAllCandidate', async (req, res) => {
+    try {
+        const allCandidate = await Candidate.find({});
+        res.send({data: allCandidate});
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 // require('./adminDetails');
 

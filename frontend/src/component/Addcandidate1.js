@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import {Icon} from 'react-icons-kit'
+import {trash} from 'react-icons-kit/feather/trash'
 // import Routes from './Routes'
 
 const initialValues = {
@@ -11,6 +13,25 @@ const initialValues = {
 
 function Addcandidate() {
     const navigate = useNavigate()
+    const [data, setData] = useState([])
+
+    // delete book from LS
+    // const deleteCandidate=(isbn)=>{
+    //     const filteredBooks=books.filter((element,index)=>{
+    //       return element.isbn !== isbn
+    //     })
+    //     setbooks(filteredBooks);
+    //   }
+
+    useEffect(() => {
+        fetch('http://localhost:5000/getAllCandidate', {
+            method: 'GET'
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data, 'candidateData');
+                setData(data.data)
+            })
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefalut();
@@ -44,7 +65,7 @@ function Addcandidate() {
             <h1>Candidates</h1>
             <p>Add candidtes standing in election</p>
             <div className="card mx-5" style={{ width: '45rem' }}><br />
-                <form method="POST" onSubmit={handleSubmit}>
+                <form method="POST" className='form-container' onSubmit={handleSubmit}>
                     <div className="mb-3 row">
                         <label htmlFor="name" className="col-sm-4 col-form-label">Name</label>
                         <div className="col-sm-10 w-50">
@@ -60,25 +81,30 @@ function Addcandidate() {
                     <button className="btn btn-primary" >ADD</button><br /><br />
                 </form>
             </div>
-            {/* <div className="view-container">
-                {Addcandidate.length > 0 && <>
-                    <div className="table-responsive">
-                        <table className='table'>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Party Name</th>
-                                    <th>Delete</th>
+            <div className="view-container">
+                <div className="table-responsive">
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Party Name</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map(i => (
+
+                                <tr key={i._id}>
+                                    <td>{i.name}</td>
+                                    <td>{i.partyname}</td>
+                                    <td><Icon icon={trash}/></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <View candidates={Addcandidate} />
-                            </tbody>
-                        </table>
-                    </div>
-                </>}
-                {candidates.length < 1 && <div>No Candidates are added yet</div>}
-            </div> */}
+
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     )
 }
