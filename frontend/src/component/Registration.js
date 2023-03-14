@@ -2,8 +2,6 @@ import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { signUpSchema } from './Validation'
 import Swal from 'sweetalert2'
-// import Carousel from './Carousel'
-// import axios from 'axios'
 
 const initialValues = {
     name: '',
@@ -22,9 +20,6 @@ export default function Registration(props) {
         if (values.name && values.id && values.dob !== '') {
             if (values.pass === values.conPass) {
                 if (!errors) {
-                    // axios.post('http://localhost:5000/routes/api/register', values).then(res => console.log(res))
-                    // return axios.post(`http://localhost:5000/api/auth/register`)
-
                     Swal.fire('Success',
                         'Registered Successfully',
                         'success'
@@ -56,19 +51,6 @@ export default function Registration(props) {
                 name, id, dob, pass, conPass
             })
         }).then((res) => res.json())
-
-        // const data = await  res.json();
-
-        // if (values.status === 400 || !values) {
-        //     alert('Invalid Registration');
-        //     console.log('Invalid Registration');
-        // } else {
-        //     // window.alert('Successfull Registration');
-        //     // alert('Successfull Registration');
-        //     // console.log('Successfull Registration');
-        // }
-
-
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({

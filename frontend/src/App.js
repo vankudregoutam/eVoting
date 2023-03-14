@@ -58,7 +58,7 @@ function App() {
         <Router>
           <Navbar title='eVoting' mode={mode} toggleMode={toggleMode} />
           <Routes>
-            <Route path='/' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
+            <Route exact path='/' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
             <Route exact path='/admin' element={<> <AdminLogin /> </>} />
             <Route exact path='/login' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
             <Route exact path='/register' element={<> <Carousel /> <Registration /> <Abc /> </>} />

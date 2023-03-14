@@ -27,12 +27,8 @@ export default function AdminLogin(props) {
         }).then((res) => res.json())
             .then((data) => {
                 console.log(data);
-            });
-        if (values.status !== '201') {
-            navigate('/addCandidate')
-        } else {
-            navigate('/admin')
-        }
+            })
+            .then(res => navigate('/addCandidate'))
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({
