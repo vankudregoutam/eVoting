@@ -23,7 +23,7 @@ export default function UserLogin(props) {
         //     alert("Something went wrong!")
         // }
 
-        !errors ? navigate('/addVote') : alert("Something went wrong!");
+        !errors ? alert("Something went wrong!") : navigate('/addVote');
 
         fetch('http://localhost:5000/login', {
             method: 'POST',
