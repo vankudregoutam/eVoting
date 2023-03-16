@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import Carousel from './component/Carousel';
 import Addcandidate from './component/AddCandidate';
-import UserHome from './component/UserHome';
+import AddVote from './component/AddVote';
 // import FaceRecognition from './component/FaceRecognition';
 
 function App() {
@@ -63,7 +63,7 @@ function App() {
             <Route exact path='/login' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
             <Route exact path='/register' element={<> <Carousel /> <Registration /> <Abc /> </>} />
             <Route exact path='/addCandidate' element={<> <Addcandidate /> </>} />
-            <Route exact path='/addVote' element={<> <UserHome /> </>} />
+            <Route exact path='/addVote' element={<> <AddVote /> </>} />
           {/* <Addcandidate /> */}
           </Routes>
 

@@ -17,14 +17,6 @@ export default function UserLogin(props) {
         e.preventDefault();
         const { id, pass } = values;
 
-        // if (!errors) {
-        //     navigate('/addVote')
-        // } else {
-        //     alert("Something went wrong!")
-        // }
-
-        !errors ? alert("Something went wrong!") : navigate('/addVote');
-
         fetch('http://localhost:5000/login', {
             method: 'POST',
             crossDomain: true,
@@ -39,7 +31,8 @@ export default function UserLogin(props) {
         }).then((res) => res.json())
             .then((data) => {
                 console.log(data);
-            });
+            })
+            .then(res => navigate('/addVote'))
     }
 
     // const login = () => {

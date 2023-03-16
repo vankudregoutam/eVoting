@@ -41,18 +41,6 @@ export default function AdminLogin(props) {
     console.log("🚀 ~ file: Registration.js:20 ~ Registration ~ errors", errors)
 
     return (
-        // <div className="auth-form-container">
-        //     <h2>Login</h2>
-        //     <form className="login-form" onSubmit={handleSubmit}>
-        //         <label htmlFor="email">email</label>
-        //         <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@gmail.com" id="email" name="email" />
-        //         <label htmlFor="password">password</label>
-        //         <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password" />
-        //         <button className="btn btn-primary mx-5">Login</button> <br />
-        //     </form>
-        //     <button className="btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Signup here.</button>
-        // </div>
-
         <>
             <div className='container my-5'>
                 <center>

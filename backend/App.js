@@ -6,7 +6,6 @@ const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
 app.use(cors())
 
 const port = 5000;
