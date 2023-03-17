@@ -5,6 +5,10 @@ const cors = require('cors');
 const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoURL = 'mongodb+srv://goutamv1503:pArTh1503@cluster0.bz1zhhr.mongodb.net/?retryWrites=true&w=majority';
+
+// using this we can easily find the data is tempered or not and if done we can get to know by using the 3rd part that is returned by authToken
+const JWT_SECRET = 'BlockchainbasedeVoting'
 
 app.use(cors())
 
@@ -139,13 +143,13 @@ require('./addCandidates');
 const Candidate = mongoose.model('CandidateInfo');
 
 app.post('/addCandidate', async (req, res) => {
-    const { name, partyname } = req.body;
+    const { name, partyname, img } = req.body;
 
     try {
         const oldCandidate = await Candidate.findOne({ partyname });
         if (!oldCandidate) {
             await Candidate.create({
-                name, partyname
+                name, partyname, img
             });
 
             // windows.alert("User already exists!");

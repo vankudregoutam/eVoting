@@ -13,7 +13,11 @@ const initialValues = {
 
 function Addcandidate() {
     // const navigate = useNavigate()
-    const [data, setData] = useState([])
+    const [data, setData] = useState([]);
+
+    const handleDelete = () => {
+        
+    }
 
     // delete book from LS
     // const deleteCandidate=(isbn)=>{
@@ -75,6 +79,12 @@ function Addcandidate() {
             <div className="card mx-5" style={{ width: '45rem' }}><br />
             {/* changed onSubmit */}
                 <form method="POST" className='form-container' onSubmit={(e) => { e.preventDefault(); handleSubmit(e) }}> 
+                    {/* <div className="mb-3 row">
+                        <label htmlFor="img" className="col-sm-4 col-form-label">Symbol</label>
+                        <div className="col-sm-10 w-50">
+                            <input type="file" autoComplete='off' className="form-control" name="img" id="img" onChange={handleChange} onBlur={handleBlur} accept='.jpeg, .png, .jpg' />
+                        </div>
+                    </div> */}
                     <div className="mb-3 row">
                         <label htmlFor="name" className="col-sm-4 col-form-label">Name</label>
                         <div className="col-sm-10 w-50">
@@ -87,7 +97,7 @@ function Addcandidate() {
                             <input type="text" autoComplete='off' className="form-control" name="partyname" id="partyname" value={values.partyname} onChange={handleChange} onBlur={handleBlur} placeholder='Enter Party Name' required />
                         </div>
                     </div>
-                    <button className="btn btn-primary" >ADD</button><br /><br />
+                    <button className="btn btn-primary" >ADD</button>
                 </form>
             </div>
             <div className="view-container">
@@ -95,6 +105,7 @@ function Addcandidate() {
                     <table className='table'>
                         <thead>
                             <tr>
+                                {/* <th>Symbol</th> */}
                                 <th>Name</th>
                                 <th>Party Name</th>
                                 <th>Delete</th>
@@ -104,9 +115,11 @@ function Addcandidate() {
                             {data.map(i => (
 
                                 <tr key={i._id}>
+                                    {/* <td>{i.img}</td> */}
+                                    {/* <td><img src='{i.img}' width={100} /></td> */}
                                     <td>{i.name}</td>
                                     <td>{i.partyname}</td>
-                                    <td><Icon icon={trash} /></td>
+                                    <td><Icon icon={trash} onClick={handleDelete} /></td>
                                 </tr>
 
                             ))}

@@ -2,6 +2,8 @@ import React from 'react'
 import { logInSchema } from './Validate';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import Webcam from "react-webcam";
+
 // import axios from 'axios'
 
 export default function UserLogin(props) {
@@ -11,6 +13,10 @@ export default function UserLogin(props) {
     const initialValues = {
         id: '',
         pass: '',
+    }
+
+    const captureImage = () => {
+        <Webcam />
     }
 
     const handleSubmit = (e) => {
@@ -31,6 +37,7 @@ export default function UserLogin(props) {
         }).then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                window.alert('Login Successful');
             })
             .then(res => navigate('/addVote'))
     }
@@ -76,6 +83,7 @@ export default function UserLogin(props) {
                                     <button className="btn btn-primary mx-2">LogIn</button><br />
                                     <div className="btn" onClick={() => navigate('/register')}>Don't have an account? Register Here.</div>
                                 </form>
+                                    <button className="btn btn-success" onClick={captureImage}>Open Webcam</button>
                             </div>
                         </div>
                     </div>

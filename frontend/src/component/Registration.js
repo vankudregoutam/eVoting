@@ -1,7 +1,8 @@
-import { useFormik } from 'formik'
-import { useNavigate } from 'react-router-dom'
-import { signUpSchema } from './Validation'
-import Swal from 'sweetalert2'
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { signUpSchema } from './Validation';
+import Swal from 'sweetalert2';
+import Webcam from "react-webcam";
 
 const initialValues = {
     name: '',
@@ -34,6 +35,10 @@ export default function Registration(props) {
         }
     }
 
+    const captureImage = () => {
+        <Webcam />
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -51,6 +56,10 @@ export default function Registration(props) {
                 name, id, dob, pass, conPass
             })
         }).then((res) => res.json())
+        .then((data) => {
+            // console.log(data);
+            window.alert('Registration Successful');
+        })
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({
@@ -110,6 +119,7 @@ export default function Registration(props) {
                                     <button className="btn btn-primary mx-5" onClick={Alert} >Register</button> <br />
                                     <div className="btn" onClick={() => navigate('/login')}>Already have an account? Login Here.</div>
                                 </form>
+                                <button className="btn btn-success" onClick={captureImage}>Open Webcam</button>
                             </div>
                         </div>
                     </div>
