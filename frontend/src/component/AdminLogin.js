@@ -25,10 +25,12 @@ export default function AdminLogin(props) {
                 id, pass
             })
         }).then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-            })
-            .then(res => navigate('/addCandidate'))
+        .then((data) => {
+            console.log(data);
+            localStorage.setItem('admin token', data);
+            window.alert('Login Successful')
+            navigate('/admin/addCandidate')
+        })
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({

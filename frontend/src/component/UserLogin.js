@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { logInSchema } from './Validate';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import Webcam from "react-webcam";
+import { getAuth, signInAnonymously } from 'firebase/auth'
 
 // import axios from 'axios'
 
 export default function UserLogin(props) {
+
+    const [error, setError] = useState('')
 
     const navigate = useNavigate();
 
@@ -15,13 +17,15 @@ export default function UserLogin(props) {
         pass: '',
     }
 
-    const captureImage = () => {
-        <Webcam />
-    }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const { id, pass } = values;
+        
+        try {
+            await signInAnonymously(getAuth(), id, pass)
+        } catch (e) {
+            setError(e.message)
+        }
 
         fetch('http://localhost:5000/login', {
             method: 'POST',
@@ -37,9 +41,14 @@ export default function UserLogin(props) {
         }).then((res) => res.json())
             .then((data) => {
                 console.log(data);
+                localStorage.setItem('token', data)
                 window.alert('Login Successful');
+                navigate('/login/addVote')
             })
-            .then(res => navigate('/addVote'))
+            // .catch(
+            //     window.alert('Unsuccessful Login')
+            // )
+            // .then()
     }
 
     // const login = () => {
@@ -83,7 +92,6 @@ export default function UserLogin(props) {
                                     <button className="btn btn-primary mx-2">LogIn</button><br />
                                     <div className="btn" onClick={() => navigate('/register')}>Don't have an account? Register Here.</div>
                                 </form>
-                                    <button className="btn btn-success" onClick={captureImage}>Open Webcam</button>
                             </div>
                         </div>
                     </div>

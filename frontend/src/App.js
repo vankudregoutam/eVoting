@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import Registration from './component/Registration';
 import { useState } from 'react';
@@ -34,10 +35,9 @@ function App() {
             <Route exact path='/' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
             <Route exact path='/login' element={<> <Carousel /> <UserLogin /> <Abc /> </>} />
             <Route exact path='/register' element={<> <Carousel /> <Registration /> <Abc /> </>} />
-            <Route exact path='/addVote' element={<> <AddVote /> </>} />
-            <Route exact path='/admin' element={<AdminLogin />} >
-            </Route>
-            <Route exact path='/addCandidate' element={<> <Addcandidate /> </>} />
+            <Route exact path='/login/addVote' element={<> <AddVote /> </>} />
+            <Route exact path='/admin' element={<AdminLogin />} />
+            <Route exact path='/admin/addCandidate' element={<> <Addcandidate /> </>} />
             {/* <Route exact path='/admin' element={<AdminLogin />} /> */}
           </Routes>
         </Router>

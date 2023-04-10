@@ -1,8 +1,8 @@
+import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { signUpSchema } from './Validation';
-import Swal from 'sweetalert2';
-import Webcam from "react-webcam";
+// import Swal from 'sweetalert2';
 
 const initialValues = {
     name: '',
@@ -16,50 +16,56 @@ export default function Registration(props) {
 
     const navigate = useNavigate();
 
-    const Alert = () => {
+    // const Navigate = () => {
 
-        if (values.name && values.id && values.dob !== '') {
-            if (values.pass === values.conPass) {
-                if (!errors) {
-                    Swal.fire('Success',
-                        'Registered Successfully',
-                        'success'
-                    )
-                }
-            }
-        } else {
-            Swal.fire('Opps',
-                'Something went wrong!',
-                'error'
-            )
-        }
-    }
+        // if (values.name && values.id && values.dob !== '') {
+        //     if (values.pass === values.conPass) {
+        //         if (!errors) {
+        //             Swal.fire('Success',
+        //                 'Registered Successfully',
+        //                 'success'
+        //             )
+        //         }
+        //     }
+        // } else {
+        //     Swal.fire('Opps',
+        //         'Something went wrong!',
+        //         'error'
+        //     )
+        // }
 
-    const captureImage = () => {
-        <Webcam />
-    }
+    //     if (!errors) {
+    //         navigate('/login');
+    //     }
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const { name, id, dob, pass, conPass } = values;
 
-        fetch('http://localhost:5000/register', {
-            method: 'POST',
-            crossDomain: true,
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                'Access-Control-Allow-Origin': '*',
-            },
-            body: JSON.stringify({
-                name, id, dob, pass, conPass
-            })
-        }).then((res) => res.json())
-        .then((data) => {
-            // console.log(data);
-            window.alert('Registration Successful');
-        })
+        // if (!errors) {
+            fetch('http://localhost:5000/register', {
+                method: 'POST',
+                crossDomain: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({
+                    name, id, dob, pass, conPass
+                })
+            }).then((res) => res.json())
+                .then((data) => {
+                    // console.log(data);
+                })
+                // .then(
+                //     window.alert('Registration Successful')
+                // )
+        // } else {
+        //     return window.alert('Unsuccessful Registration')
+        // }
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({
@@ -116,10 +122,9 @@ export default function Registration(props) {
                                             {errors.conPass && touched.conPass ? (<p className='form-error' style={{ color: 'red' }}>{errors.conPass}</p>) : null}
                                         </div>
                                     </div>
-                                    <button className="btn btn-primary mx-5" onClick={Alert} >Register</button> <br />
+                                    <button className="btn btn-primary mx-5" >Register</button> <br />
                                     <div className="btn" onClick={() => navigate('/login')}>Already have an account? Login Here.</div>
                                 </form>
-                                <button className="btn btn-success" onClick={captureImage}>Open Webcam</button>
                             </div>
                         </div>
                     </div>

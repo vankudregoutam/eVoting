@@ -10,11 +10,11 @@ const addCandidateSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        img: {
-            data: Buffer,
-            type: String,
-            required: true
-        },
+        // img: {
+        //     data: Buffer,
+        //     type: String,
+        //     required: true
+        // },
         date: {
             type: Date,
             default: Date.now

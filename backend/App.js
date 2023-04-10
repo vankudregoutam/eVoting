@@ -5,6 +5,10 @@ const cors = require('cors');
 const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoURL = 'mongodb+srv://goutamv1503:pArTh1503@cluster0.bz1zhhr.mongodb.net/?retryWrites=true&w=majority';
+
+// using this we can easily find the data is tempered or not and if done we can get to know by using the 3rd part that is returned by authToken
+const JWT_SECRET = 'BlockchainbasedeVoting'
 
 app.use(cors())
 
@@ -139,13 +143,13 @@ require('./addCandidates');
 const Candidate = mongoose.model('CandidateInfo');
 
 app.post('/addCandidate', async (req, res) => {
-    const { name, partyname, img } = req.body;
+    const { name, partyname } = req.body;
 
     try {
         const oldCandidate = await Candidate.findOne({ partyname });
         if (!oldCandidate) {
             await Candidate.create({
-                name, partyname, img
+                name, partyname
             });
 
             // windows.alert("User already exists!");
@@ -154,7 +158,10 @@ app.post('/addCandidate', async (req, res) => {
 
         } else {
             console.log('Candidate already exists!');
-            return res.send("Candidate already exists")
+            return (
+                res.send("Candidate already exists")
+                // window.alert('Candidate already exists!')
+                )
 
         }
     } catch (error) {
@@ -166,7 +173,32 @@ app.post('/addCandidate', async (req, res) => {
 app.get('/getAllCandidate', async (req, res) => {
     try {
         const allCandidate = await Candidate.find({});
-        res.send({data: allCandidate});
+        res.send({ data: allCandidate });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// app.delete('/deleteCandidate:id', async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const deleteCandidate = await Candidate.findByIdAndDelete(id);
+//         if(!id) {
+//             return res.status(400).send()
+//         }
+//         res.send(deleteCandidate);
+//     } catch (error) {
+//         res.status(500).send(error);
+//     }
+// })
+
+app.post('/deleteCandidate', async (req, res) => {
+    const { candidateId } = req.body;
+    try {
+        Candidate.deleteOne({ _id: candidateId }, (err, res) => {
+            alert(err);
+        });
+        res.send({ data: 'Deleted' })
     } catch (error) {
         console.log(error);
     }
