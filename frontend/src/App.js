@@ -39,7 +39,6 @@ function App() {
             <Route exact path='/login/addVote' element={<> <AddVote /> </>} />
             <Route exact path='/admin' element={<AdminLogin />} />
             <Route exact path='/admin/addCandidate' element={<> <Addcandidate /> </>} />
-            {/* <Route exact path='/admin' element={<AdminLogin />} /> */}
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Router>

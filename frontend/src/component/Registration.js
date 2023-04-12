@@ -2,7 +2,6 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { signUpSchema } from './Validation';
-// import Swal from 'sweetalert2';
 import { getAuth, createUserWithAnonymously } from 'firebase/auth';
 
 const initialValues = {
@@ -16,29 +15,6 @@ const initialValues = {
 export default function Registration(props) {
 
     const navigate = useNavigate();
-
-    // const Navigate = () => {
-
-        // if (values.name && values.id && values.dob !== '') {
-        //     if (values.pass === values.conPass) {
-        //         if (!errors) {
-        //             Swal.fire('Success',
-        //                 'Registered Successfully',
-        //                 'success'
-        //             )
-        //         }
-        //     }
-        // } else {
-        //     Swal.fire('Opps',
-        //         'Something went wrong!',
-        //         'error'
-        //     )
-        // }
-
-    //     if (!errors) {
-    //         navigate('/login');
-    //     }
-    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -75,7 +51,6 @@ export default function Registration(props) {
     return (
         <>
             <div className='container my-5'>
-                {/* <div className='container my-5' style={{ color: props.mode === 'dark' ? 'white' : 'black' }}> */}
                 <center>
                     <h3>Create your own Account</h3><br />
                     <div className="card mx-5"><br />

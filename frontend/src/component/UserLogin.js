@@ -72,7 +72,6 @@ export default function UserLogin(props) {
         <>
             <div className='container my-5'>
                 <center>
-                    {/* <h3 style={{ color: 'white' }}>User Login</h3><br /> */}
                     <h3>User Login</h3><br />
                     <div className="card mx-5" style={{ width: '40rem' }}>
                         <div className="card-body mx-5">
