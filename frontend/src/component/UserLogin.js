@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { logInSchema } from './Validate';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInAnonymously } from 'firebase/auth'
+// import { getAuth, signInAnonymously } from 'firebase/auth'
 
 // import axios from 'axios'
 
 export default function UserLogin(props) {
 
-    const [error, setError] = useState('')
+    // const [error, setError] = useState('')
 
     const navigate = useNavigate();
 
@@ -17,15 +17,22 @@ export default function UserLogin(props) {
         pass: '',
     }
 
+    useEffect(() => {
+        if (localStorage.getItem('admin token')) {
+            window.alert('First Logout as admin!');
+            navigate('/admin/addCandidate');
+        }
+    }, [])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { id, pass } = values;
-        
-        try {
-            await signInAnonymously(getAuth(), id, pass)
-        } catch (e) {
-            setError(e.message)
-        }
+        const { name, id, pass } = values;
+
+        // try {
+        //     await signInAnonymously(getAuth(), id, pass)
+        // } catch (e) {
+        //     setError(e.message)
+        // }
 
         fetch('http://localhost:5000/login', {
             method: 'POST',
@@ -36,19 +43,15 @@ export default function UserLogin(props) {
                 'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify({
-                id, pass
+                name, id, pass
             })
         }).then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                localStorage.setItem('token', data)
-                window.alert('Login Successful');
-                navigate('/login/addVote')
-            })
-            // .catch(
-            //     window.alert('Unsuccessful Login')
-            // )
-            // .then()
+        .then((data) => {
+            console.log(data);
+            localStorage.setItem('token', data)
+            window.alert('Login Successful');
+            navigate('/login/addVote')
+        })
     }
 
     // const login = () => {

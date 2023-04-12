@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from 'formik';
 import { adminlogInSchema } from './AdminValidate';
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,14 @@ export default function AdminLogin(props) {
         pass: '',
     }
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            window.alert('First Logout as user!');
+            navigate('/login/addVote');
+        }
+    }, [])
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,12 +33,12 @@ export default function AdminLogin(props) {
                 id, pass
             })
         }).then((res) => res.json())
-        .then((data) => {
-            console.log(data);
-            localStorage.setItem('admin token', data);
-            window.alert('Login Successful')
-            navigate('/admin/addCandidate')
-        })
+            .then((data) => {
+                console.log(data);
+                localStorage.setItem('admin token', data);
+                window.alert('Login Successful')
+                navigate('/admin/addCandidate')
+            })
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({

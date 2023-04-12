@@ -11,7 +11,6 @@ const initialValues = {
     partyname: ''
 }
 
-
 function Addcandidate() {
     const navigate = useNavigate()
     const [data, setData] = useState([]);
@@ -42,11 +41,9 @@ function Addcandidate() {
 
         const duration = performance.now() - startTime;
         console.log(`someMethodIThinkMightBeSlow took ${duration}ms`);
-        // const newData = data.filter((l) => l._id !== _id);
-        // setData(newData);
         if (window.confirm(`Are you sure to delete ${name}?`)) {
             fetch('http://localhost:5000/deleteCandidate', {
-                method: 'POST',
+                method: 'DELETE',
                 crossDomain: true,
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,10 +54,10 @@ function Addcandidate() {
                     candidateId: id
                 }),
             }).then((res) => res.json())
-                .then((data) => {
-                    alert(data.data);
-                    getCandidate();
-                });
+            .then((data) => {
+                alert(data.data);
+                getCandidate();
+            });
         } else {
 
         }
@@ -92,10 +89,10 @@ function Addcandidate() {
                 name, partyname
             })
         })
-            // Chenged here
-            .then(() => {
-                getCandidate();
-            })
+        // Changed here
+        .then(() => {
+            getCandidate();
+        })
     }
 
     const { values, errors, handleBlur, handleChange } = useFormik({

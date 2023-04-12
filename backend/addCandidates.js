@@ -15,10 +15,15 @@ const addCandidateSchema = new mongoose.Schema(
         //     type: String,
         //     required: true
         // },
+        // voted: {
+        //     type: Boolean,
+        //     required: true
+        // },
         date: {
             type: Date,
             default: Date.now
         },
+        
     },
     {
         collection: 'CandidateInfo',

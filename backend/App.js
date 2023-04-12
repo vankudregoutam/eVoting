@@ -6,6 +6,17 @@ const Swal = require('sweetalert2');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoURL = 'mongodb+srv://goutamv1503:pArTh1503@cluster0.bz1zhhr.mongodb.net/?retryWrites=true&w=majority';
+// import fs from 'fs';
+const fs = require('fs')
+// import admin from 'firebase-admin';
+const admin = require('firebase-admin')
+
+const credentials = JSON.parse(
+    fs.readFileSync('./credentials.json')
+);
+admin.initializeApp({
+    credential: admin.credential.cert(credentials)
+});
 
 // using this we can easily find the data is tempered or not and if done we can get to know by using the 3rd part that is returned by authToken
 const JWT_SECRET = 'BlockchainbasedeVoting'
@@ -14,6 +25,19 @@ app.use(cors())
 
 const port = 5000;
 app.use(express.json());
+
+app.use(async (res, req, next) => {
+    const { authToken } = req.header;
+
+    if (authToken) {
+        try {
+            req.user = await admin.auth().verifyIdToken(authToken)
+        } catch (e) {
+            res.sendStatus(400);
+        }
+    }
+    next();
+})
 
 mongoose.connect(mongoURL, {
     useNewUrlParser: true
@@ -44,6 +68,7 @@ require('./userDetails');
 const User = mongoose.model('UserInfo');
 
 app.post('/register', async (req, res) => {
+    // const voted = false;
     const { name, id, dob, pass, conPass } = req.body;
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(pass, salt);
@@ -52,28 +77,19 @@ app.post('/register', async (req, res) => {
         const oldUser = await User.findOne({ id });
         if (oldUser) {
 
-            Swal.fire('Error',
-                'User already exists!',
-                'error'
-            )
             // alert("User already exists!");
-            return res.send("User already exists")
+            return window.alert("User already exists")
 
         }
         if (secPass === secconPass) {
             await User.create({
                 name, id, dob, pass: secPass, conPass: secconPass
             });
-            Swal.fire('Success',
-                'Successful Registration',
-                'success'
-            )
             res.send("Successful Registration")
         } else {
             return res.send("Password doesn't match");
         }
     } catch (error) {
-
         res.send(error)
     }
 });
@@ -161,7 +177,7 @@ app.post('/addCandidate', async (req, res) => {
             return (
                 res.send("Candidate already exists")
                 // window.alert('Candidate already exists!')
-                )
+            )
 
         }
     } catch (error) {
@@ -179,6 +195,15 @@ app.get('/getAllCandidate', async (req, res) => {
     }
 })
 
+// app.get('/getUser', async (req, res) => {
+//     try {
+//         const user = await User.find({});
+//         res.send({ data: user });
+//     } catch (error) {
+//         console.log(error);
+//     }
+// })
+
 // app.delete('/deleteCandidate:id', async (req, res) => {
 //     try {
 //         const id = req.params.id;
@@ -192,7 +217,7 @@ app.get('/getAllCandidate', async (req, res) => {
 //     }
 // })
 
-app.post('/deleteCandidate', async (req, res) => {
+app.delete('/deleteCandidate', async (req, res) => {
     const { candidateId } = req.body;
     try {
         Candidate.deleteOne({ _id: candidateId }, (err, res) => {

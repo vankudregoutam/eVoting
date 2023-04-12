@@ -3,13 +3,14 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { signUpSchema } from './Validation';
 // import Swal from 'sweetalert2';
+import { getAuth, createUserWithAnonymously } from 'firebase/auth';
 
 const initialValues = {
     name: '',
     id: '',
     dob: '',
     pass: '',
-    conPass: ''
+    conPass: '',
 }
 
 export default function Registration(props) {
@@ -57,15 +58,9 @@ export default function Registration(props) {
                     name, id, dob, pass, conPass
                 })
             }).then((res) => res.json())
-                .then((data) => {
-                    // console.log(data);
-                })
-                // .then(
-                //     window.alert('Registration Successful')
-                // )
-        // } else {
-        //     return window.alert('Unsuccessful Registration')
-        // }
+            .then((data) => {
+                console.log(data);
+            })
     }
 
     const { values, errors, touched, handleBlur, handleChange } = useFormik({

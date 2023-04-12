@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
-function AddVote() {
+function AddVote(props) {
 
     const [data, setData] = useState([]);
     // const { user, isLoading } = useUser();
@@ -25,6 +25,18 @@ function AddVote() {
     }
 
     const navigate = useNavigate()
+    // const [profile, setProfile] = useState()
+
+
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/getUser', {
+    //         method: 'GET'
+    //     }).then(res => res.json())
+    //         .then(profile => {
+    //             console.log(profile, 'userData');
+    //             setProfile(profile.profile)
+    //         })
+    // }, [])
 
     useEffect(() => {
         fetch('http://localhost:5000/getAllCandidate', {
@@ -34,14 +46,24 @@ function AddVote() {
                 console.log(data, 'candidateData');
                 setData(data.data)
             })
-        // .then(res => navigate('/addCandidate'))
     }, [])
 
     return (
         <>
-            <div className="container">
+            {/* <div class="card" style="width: 18rem;">
+                {profile.map(i => (
+                    <p key={i._id}>
+                        <p>{i.name}</p>
+                        <p>{i.id}</p>
+                        <p>{i.dob}</p>
+                    </p>
+                ))
+                }
+            </div> */}
 
+            <div className="container">
                 <div className="view-container">
+                    <h3>Welcome {props.name}</h3>
                     <h2>Add Vote</h2><br /><br />
                     <div className="table-responsive">
                         <table className='table'>
@@ -72,10 +94,9 @@ function AddVote() {
                 </div>
             </div>
             <div className="footer">
-                {/* <div className="nav-right"> */}
-                    <button className="btn btn-danger" onClick={LogOut}>Log Out</button>
-                {/* </div> */}
+                <button className="btn btn-danger" onClick={LogOut}>Log Out</button>
             </div><br /><br />
+
         </>
     )
 }

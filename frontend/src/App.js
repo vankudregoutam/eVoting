@@ -15,6 +15,7 @@ import {
 import Carousel from './component/Carousel';
 import Addcandidate from './component/AddCandidate';
 import AddVote from './component/AddVote';
+import NotFoundPage from './component/NotFoundPage';
 
 function App() {
   const [mode, setMode] = useState('light')
@@ -39,6 +40,7 @@ function App() {
             <Route exact path='/admin' element={<AdminLogin />} />
             <Route exact path='/admin/addCandidate' element={<> <Addcandidate /> </>} />
             {/* <Route exact path='/admin' element={<AdminLogin />} /> */}
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Router>
       </div>
