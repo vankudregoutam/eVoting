@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import useUser from '../hooks/useUser'
+// import useUser from '../hooks/useUser'
 
 export default function Navbar1(props) {
 
-    const { user, isLoading } = useUser();
+    // const { user, isLoading } = useUser();
 
     return (
         <>

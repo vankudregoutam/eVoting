@@ -21,7 +21,7 @@ export default function AdminLogin(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const { id, pass } = values;
-        fetch('http://localhost:5000/admin', {
+        fetch('http://localhost:5001/admin', {
             method: 'POST',
             crossDomain: true,
             headers: {

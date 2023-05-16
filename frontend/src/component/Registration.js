@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { signUpSchema } from './Validation';
-import { getAuth, createUserWithAnonymously } from 'firebase/auth';
+// import { getAuth, createUserWithAnonymously } from 'firebase/auth';
 
 const initialValues = {
     name: '',
@@ -22,7 +22,7 @@ export default function Registration(props) {
         const { name, id, dob, pass, conPass } = values;
 
         // if (!errors) {
-            fetch('http://localhost:5000/register', {
+            fetch('http://localhost:5001/register', {
                 method: 'POST',
                 crossDomain: true,
                 headers: {

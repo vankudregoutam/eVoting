@@ -14,32 +14,39 @@ function AddVote(props) {
         }
     }, [])
 
-    const Vote = () => {
+    const Vote = (id, name) => {
         // disable
+        if(window.confirm(`Do you want to vote ${name}`)) {
+            fetch(`http://localhost:5001/vote/${id}`, {
+                method: 'POST',
+                crossDomain: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({
+                    candidateId: id
+                }),
+            }).then(res => {
+                res.json();
+            })
+            // .then()
+        }
     }
 
     const LogOut = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
-        window.alert('Log Out Successful!')
+        if (window.confirm('Do you want to logout')) {
+            localStorage.removeItem('token')
+            navigate('/login')
+            window.alert('Log Out Successful!')
+        }
     }
 
     const navigate = useNavigate()
-    // const [profile, setProfile] = useState()
-
-
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/getUser', {
-    //         method: 'GET'
-    //     }).then(res => res.json())
-    //         .then(profile => {
-    //             console.log(profile, 'userData');
-    //             setProfile(profile.profile)
-    //         })
-    // }, [])
 
     useEffect(() => {
-        fetch('http://localhost:5000/getAllCandidate', {
+        fetch('http://localhost:5001/getAllCandidate', {
             method: 'GET'
         }).then(res => res.json())
             .then(data => {
@@ -50,20 +57,10 @@ function AddVote(props) {
 
     return (
         <>
-            {/* <div class="card" style="width: 18rem;">
-                {profile.map(i => (
-                    <p key={i._id}>
-                        <p>{i.name}</p>
-                        <p>{i.id}</p>
-                        <p>{i.dob}</p>
-                    </p>
-                ))
-                }
-            </div> */}
 
             <div className="container">
                 <div className="view-container">
-                    <h3>Welcome {props.name}</h3>
+                    <h3>Welcome</h3>
                     <h2>Add Vote</h2><br /><br />
                     <div className="table-responsive">
                         <table className='table'>
@@ -76,16 +73,10 @@ function AddVote(props) {
                             </thead>
                             <tbody>
                                 {data.map(i => (
-
                                     <tr key={i._id}>
                                         <td>{i.name}</td>
                                         <td>{i.partyname}</td>
-                                        <td><button className="btn btn-primary" onClick={Vote} >Vote</button></td>
-                                        {/* <td>
-                                            {user ? <button className="btn btn-primary" onClick={Vote} >Vote</button>
-                                                : <button className="btn btn-primary" disabled >Login</button>
-                                            }
-                                        </td> */}
+                                        <td><button className="btn btn-primary" onClick={() => Vote(i._id, i.name)} >Vote</button></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -93,9 +84,9 @@ function AddVote(props) {
                     </div>
                 </div>
             </div>
-            <div className="footer">
+            <footer>
                 <button className="btn btn-danger" onClick={LogOut}>Log Out</button>
-            </div><br /><br />
+            </footer><br /><br />
 
         </>
     )

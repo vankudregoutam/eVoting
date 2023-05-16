@@ -3,18 +3,16 @@ import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from 'react-icons-kit'
 import { trash } from 'react-icons-kit/feather/trash'
-// import Routes from './Routes'
-import useUser from '../hooks/useUser';
 
 const initialValues = {
     name: '',
-    partyname: ''
+    partyname: '',
+    votes: 0
 }
 
 function Addcandidate() {
     const navigate = useNavigate()
     const [data, setData] = useState([]);
-    const { user, isLoading } = useUser();
 
     useEffect(() => {
         if (!localStorage.getItem('admin token')) {
@@ -23,7 +21,7 @@ function Addcandidate() {
     }, [])
 
     const getCandidate = () => {
-        fetch('http://localhost:5000/getAllCandidate', {
+        fetch('http://localhost:5001/getAllCandidate', {
             method: 'GET'
         }).then(res => res.json())
             .then(data => {
@@ -34,15 +32,9 @@ function Addcandidate() {
     }
 
     const handleDelete = (id, name) => {
-        // debugger
-        const startTime = performance.now();
 
-        // Do the normal stuff for this function
-
-        const duration = performance.now() - startTime;
-        console.log(`someMethodIThinkMightBeSlow took ${duration}ms`);
         if (window.confirm(`Are you sure to delete ${name}?`)) {
-            fetch('http://localhost:5000/deleteCandidate', {
+            fetch(`http://localhost:5001/deleteCandidate/${id}`, {
                 method: 'DELETE',
                 crossDomain: true,
                 headers: {
@@ -53,13 +45,14 @@ function Addcandidate() {
                 body: JSON.stringify({
                     candidateId: id
                 }),
-            }).then((res) => res.json())
-            .then((data) => {
-                alert(data.data);
-                getCandidate();
-            });
-        } else {
-
+            }).then((res) => {
+                res.json();
+            })
+            window.location.reload()
+            .then((data) =>
+                alert(data.data)
+            )
+            .catch((err) => console.log(err));
         }
     }
 
@@ -68,16 +61,19 @@ function Addcandidate() {
     }, [])
 
     const LogOut = () => {
-        localStorage.removeItem('admin token');
-        window.alert('Log Out Successful!')
-        navigate('/admin')
+        if (window.confirm('Do you want to logout')) {
+            localStorage.removeItem('admin token')
+            navigate('/admin')
+            window.alert('Log Out Successful!')
+        }
     }
 
     const handleSubmit = (e) => {
+        // debugger
 
-        const { name, partyname } = values;
+        const { name, partyname, votes } = values;
 
-        fetch('http://localhost:5000/addCandidate', {
+        fetch('http://localhost:5001/addCandidate', {
             method: 'POST',
             crossDomain: true,
             headers: {
@@ -86,13 +82,13 @@ function Addcandidate() {
                 'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify({
-                name, partyname
+                name, partyname, votes
             })
         })
-        // Changed here
-        .then(() => {
-            getCandidate();
-        })
+            // Changed here
+            .then(() => {
+                getCandidate();
+            })
     }
 
     const { values, errors, handleBlur, handleChange } = useFormik({
@@ -111,12 +107,6 @@ function Addcandidate() {
                 <div className="card mx-5" style={{ width: '45rem' }}><br />
                     {/* changed onSubmit */}
                     <form method="POST" className='form-container' onSubmit={(e) => { e.preventDefault(); handleSubmit(e) }}>
-                        {/* <div className="mb-3 row">
-                        <label htmlFor="img" className="col-sm-4 col-form-label">Symbol</label>
-                        <div className="col-sm-10 w-50">
-                            <input type="file" autoComplete='off' className="form-control" name="img" id="img" onChange={handleChange} onBlur={handleBlur} accept='.jpeg, .png, .jpg' />
-                        </div>
-                    </div> */}
                         <div className="mb-3 row">
                             <label htmlFor="name" className="col-sm-4 col-form-label">Name</label>
                             <div className="col-sm-10 w-50">
@@ -140,6 +130,7 @@ function Addcandidate() {
                                     {/* <th>Symbol</th> */}
                                     <th>Name</th>
                                     <th>Party Name</th>
+                                    {/* <th>Edit</th> */}
                                     <th>Delete</th>
                                 </tr>
                             </thead>
@@ -151,6 +142,7 @@ function Addcandidate() {
                                         {/* <td><img src='{i.img}' width={100} /></td> */}
                                         <td>{i.name}</td>
                                         <td>{i.partyname}</td>
+                                        {/* <td><Icon icon={pen_3} style={{ cursor: 'pointer', color: 'green' }} onClick={() => handleEdit(i._id, i.name)} /></td> */}
                                         <td><Icon icon={trash} style={{ cursor: 'pointer', color: 'red' }} onClick={() => handleDelete(i._id, i.name)} /></td>
                                     </tr>
 

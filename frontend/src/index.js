@@ -5,22 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD6AEeLe3qbraDGouMonMCXXzTw4LHNSYg",
-  authDomain: "evoting-54329.firebaseapp.com",
-  projectId: "evoting-54329",
-  storageBucket: "evoting-54329.appspot.com",
-  messagingSenderId: "849256666553",
-  appId: "1:849256666553:web:afbf7fc17d97bfb3e01268"
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyD6AEeLe3qbraDGouMonMCXXzTw4LHNSYg",
+//   authDomain: "evoting-54329.firebaseapp.com",
+//   projectId: "evoting-54329",
+//   storageBucket: "evoting-54329.appspot.com",
+//   messagingSenderId: "849256666553",
+//   appId: "1:849256666553:web:afbf7fc17d97bfb3e01268"
+// };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
