@@ -1,20 +1,11 @@
-// import fs from "fs";
-// import admin from "firebase-admin";
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// import fs from 'fs';
 const fs = require('fs')
-// import admin from 'firebase-admin';
 const admin = require('firebase-admin')
-
-const mongoURL = 'mongodb+srv://goutamv1503:pArTh1503@cluster0.bz1zhhr.mongodb.net/?retryWrites=true&w=majority';
-
-const JWT_SECRET = 'BlockchainbasedeVoting'
-
 
 const credentials = JSON.parse(
     fs.readFileSync('./credentials.json')
@@ -191,8 +182,6 @@ app.post('/vote/:id', async (req, res) => {
     )})
 
 require('./adminDetails');
-
-// const Admin = mongoose.model('AdminInfo');
 
 app.post('/admin/register', async (req, res) => {
     const { name, id, dob, pass, conPass } = req.body;
